@@ -12,6 +12,10 @@ import (
 	authHttp "sekolah-api/internal/auth/delivery/http"
 	authRepo "sekolah-api/internal/auth/infrastructure/persistence"
 	authUse "sekolah-api/internal/auth/usecase"
+
+	siswaHttp "sekolah-api/internal/siswa/delivery/http"
+	siswaRepo "sekolah-api/internal/siswa/infrastructure/persistence"
+	siswaUse "sekolah-api/internal/siswa/usecase"
 )
 
 func SetupRouter(db *gorm.DB) *gin.Engine {
@@ -30,6 +34,10 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	auUse := authUse.NewAuthUsecase(uRepo, auRepo)
 	auHandler := authHttp.NewAuthHandler(auUse)
 
+	siRepo := siswaRepo.NewSiswaRepository(db)
+	siUse := siswaUse.NewSiswaUsecase(siRepo)
+	siHandler := siswaHttp.NewSiswaHandler(siUse)
+
 	// Grup Auth
 	auth := api.Group("/auth")
 	{
@@ -47,6 +55,15 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 		pengguna.POST("/", uHandler.Create)
 		pengguna.PUT("/:id", uHandler.Update)
 		pengguna.DELETE("/:id", uHandler.Delete)
+	}
+
+	siswa := api.Group("/siswa").Use(middleware.Auth())
+	{
+		siswa.GET("/", siHandler.GetAll)
+		siswa.GET("/:id", siHandler.GetByID)
+		siswa.POST("/", siHandler.Create)
+		siswa.PUT("/:id", siHandler.Update)
+		siswa.DELETE("/:id", siHandler.Delete)
 	}
 
 	return r

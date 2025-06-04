@@ -58,10 +58,12 @@ func (u *AuthUsecase) Login(ctx *gin.Context, req dto.LoginRequest) (*dto.LoginR
 		RefreshToken: refreshToken,
 		ExpiredAt:    expiresAt,
 		User: dto.UserProfile{
-			PenggunaID: pengguna.PenggunaID,
-			Nama:       pengguna.Nama,
-			PeranIDStr: pengguna.PeranIDStr,
-			SekolahID:  pengguna.SekolahID,
+			PenggunaID:     pengguna.PenggunaID,
+			Nama:           pengguna.Nama,
+			PeranIDStr:     pengguna.PeranIDStr,
+			SekolahID:      pengguna.SekolahID,
+			PTKID:          pengguna.PtkID,
+			PesertaDidikID: pengguna.PesertaDidikID,
 		},
 	}, nil
 }

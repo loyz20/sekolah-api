@@ -5,6 +5,7 @@ import (
 	"log"
 	authDom "sekolah-api/internal/auth/domain"
 	pengDom "sekolah-api/internal/pengguna/domain"
+	siswaDom "sekolah-api/internal/siswa/domain"
 	"sekolah-api/pkg/utils"
 	"time"
 
@@ -46,6 +47,7 @@ func InitDB() *gorm.DB {
 	db.AutoMigrate(
 		&pengDom.Pengguna{},
 		&authDom.RefreshToken{},
+		&siswaDom.Siswa{},
 	)
 
 	DB = db

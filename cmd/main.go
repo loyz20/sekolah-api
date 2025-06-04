@@ -13,6 +13,7 @@ func main() {
 
 	db := config.InitDB()
 	seeder.SeedPengguna(db)
+	seeder.SeedSiswa(db)
 	r := routes.SetupRouter(db)
 
 	r.Run(":8080")
